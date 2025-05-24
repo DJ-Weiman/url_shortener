@@ -2,9 +2,9 @@ package com.url.shortener.service;
 
 import com.url.shortener.models.User;
 import com.url.shortener.repository.UserRepository;
+import com.url.shortener.service.impl.UserDetailsImpl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

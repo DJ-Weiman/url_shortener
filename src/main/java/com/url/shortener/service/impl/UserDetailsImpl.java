@@ -1,4 +1,4 @@
-package com.url.shortener.service;
+package com.url.shortener.service.impl;
 
 import com.url.shortener.models.User;
 import lombok.Data;
