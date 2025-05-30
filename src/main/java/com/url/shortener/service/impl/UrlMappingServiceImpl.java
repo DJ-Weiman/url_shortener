@@ -9,6 +9,8 @@ import com.url.shortener.repository.ClickEventRepository;
 import com.url.shortener.repository.UrlMappingRepository;
 import com.url.shortener.service.UrlMappingService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -75,6 +77,23 @@ public class  UrlMappingServiceImpl implements UrlMappingService {
 
         return clickEvents.stream()
                 .collect(Collectors.groupingBy(click -> click.getClickDate().toLocalDate(), Collectors.counting()));
+    }
+
+    @Override
+    public UrlMapping getOriginalUrl(String shortUrl) {
+        UrlMapping urlMapping = urlMappingRepository.findByShortUrl(shortUrl);
+        if(urlMapping != null){
+            urlMapping.setClickCount(urlMapping.getClickCount() + 1);
+            urlMappingRepository.save(urlMapping);
+
+            ClickEvent clickEvent = ClickEvent.builder()
+                    .clickDate(LocalDateTime.now())
+                    .urlMapping(urlMapping)
+                    .build();
+
+            clickEventRepository.save(clickEvent);
+        }
+        return urlMapping;
     }
 
     private UrlMappingDto convertToDto(UrlMapping urlMapping){
